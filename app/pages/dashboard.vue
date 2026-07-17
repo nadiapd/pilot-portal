@@ -20,9 +20,9 @@ const fallbackFlight = {
   monthYear: 'MAY 2026',
   time: '14:00 LT',
   origin: 'WIHH',
-  originCity: 'Jakarta HLP',
+  originCity: 'Jakarta',
   destination: 'WICN',
-  destinationCity: 'Pangandaran CJN'
+  destinationCity: 'Pangandaran'
 }
 
 const defaultNewsImage = 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=480&q=60&auto=format&fit=crop'
