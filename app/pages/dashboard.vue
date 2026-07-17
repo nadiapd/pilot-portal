@@ -56,7 +56,7 @@ const pilotProfile = computed(() => ({
 const upcomingFlight = computed(() => pilotStore.upcomingFlight || fallbackFlight)
 const newsItems = fallbackNews
 const hoursToLimit = computed(() => pilotStore.hoursToLimit)
-const documents = computed(() => documentStore.processedDocuments.slice(0, 3))
+const documents = computed(() => documentStore.processedDocuments.slice(0, 4))
 const notificationCount = computed(() => pilotStore.notifications || 3)
 const chartData = computed(() => pilotStore.getChartData(selectedChartToggle.value))
 </script>
