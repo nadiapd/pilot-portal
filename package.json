@@ -1,0 +1,47 @@
+{
+  "name": "pilot-portal",
+  "private": true,
+  "version": "1.0.31",
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "dev": "nuxt dev",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck",
+    "sync:readme-version": "node ./scripts/sync-readme-version.mjs",
+    "postversion": "npm run sync:readme-version && git add README.md"
+  },
+  "dependencies": {
+    "@nuxt/image": "^2.0.0",
+    "@pinia/nuxt": "^0.11.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "chart.js": "^4.5.1",
+    "crypto-js": "^4.2.0",
+    "moment": "^2.30.1",
+    "nuxt": "^4.3.1",
+    "pinia": "^3.0.3",
+    "tailwindcss": "^4.3.3",
+    "vue-chartjs": "^5.3.4",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@nuxt/eslint": "^1.14.0",
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^24.9.1",
+    "eslint": "^9.38.0",
+    "lint-staged": "^16.2.7",
+    "sass": "^1.101.0",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": [
+      "eslint --max-warnings=0"
+    ]
+  },
+  "packageManager": "pnpm@10.29.2"
+}
