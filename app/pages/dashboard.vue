@@ -19,9 +19,9 @@ const fallbackFlight = {
   date: '31',
   monthYear: 'MAY 2026',
   time: '14:00 LT',
-  origin: 'HLP',
+  origin: 'WIHH',
   originCity: 'Jakarta HLP',
-  destination: 'CJN',
+  destination: 'WICN',
   destinationCity: 'Pangandaran CJN'
 }
 
