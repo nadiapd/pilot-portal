@@ -6,43 +6,18 @@ defineProps<{
 </script>
 
 <template>
-  <div class="section-header">
-    <div class="section-header__copy">
-      <h2>{{ title }}</h2>
-      <p v-if="subtitle">{{ subtitle }}</p>
+  <div class="flex justify-between items-center flex-wrap gap-3 mb-3 px-1">
+    <div class="flex flex-col gap-[0.2rem] min-w-0">
+      <h2 class="m-0 text-[0.95rem] font-bold text-susi-navy">
+        {{ title }}
+      </h2>
+      <p
+        v-if="subtitle"
+        class="m-0 text-xs text-text-secondary"
+      >
+        {{ subtitle }}
+      </p>
     </div>
     <slot name="action" />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-  padding: 0 0.25rem;
-}
-
-.section-header__copy {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  min-width: 0;
-
-  h2 {
-    margin: 0;
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: $susi-navy;
-  }
-
-  p {
-    margin: 0;
-    font-size: 0.75rem;
-    color: $text-secondary;
-  }
-}
-</style>

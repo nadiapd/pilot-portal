@@ -1,4 +1,4 @@
-// import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
 
@@ -25,7 +25,7 @@ export default defineNuxtConfig({
     }
   },
 
-  css: ['~/assets/scss/main.scss'],
+  css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
     private: {
@@ -44,13 +44,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-07-15',
 
   vite: {
-    css: {
-      preprocessorOptions: {
-        scss: {
-          additionalData: '@use "~/assets/scss/_variables.scss" as *;'
-        }
-      }
-    }
+    plugins: [tailwindcss()]
   },
 
   eslint: {

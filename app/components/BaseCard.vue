@@ -1,6 +1,6 @@
 <script setup lang="ts">
-withDefaults(defineProps<{
-  padding?: 'sm' | 'md' | 'lg'
+const props = withDefaults(defineProps<{
+  padding?: 'sm' | 'md' | 'lg' | 'none'
   raised?: boolean
   interactive?: boolean
 }>(), {
@@ -8,43 +8,26 @@ withDefaults(defineProps<{
   raised: false,
   interactive: false
 })
+
+const paddingClass = {
+  sm: 'p-3',
+  md: 'p-4',
+  lg: 'p-6',
+  none: ''
+} as const
+
+const paddingClasses = computed(() => paddingClass[props.padding])
 </script>
 
 <template>
   <div
-    class="base-card"
-    :class="[`base-card--padding-${padding}`, { 'base-card--raised': raised, 'base-card--interactive': interactive }]"
+    class="bg-white border border-border-light rounded-2xl"
+    :class="[
+      paddingClasses,
+      raised ? 'shadow-card-raised' : 'shadow-card',
+      { 'cursor-pointer transition-[transform,box-shadow] duration-200 ease-[ease] hover:shadow-card-raised active:scale-[0.98]': interactive }
+    ]"
   >
     <slot />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.base-card {
-  background-color: $susi-card;
-  border: 1px solid $border-light;
-  border-radius: $radius-card-lg;
-  box-shadow: $shadow-card;
-
-  &--padding-sm { padding: 0.75rem; }
-  &--padding-md { padding: 1rem; }
-  &--padding-lg { padding: 1.5rem; }
-
-  &--raised {
-    box-shadow: $shadow-card-raised;
-  }
-
-  &--interactive {
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-    &:hover {
-      box-shadow: $shadow-card-raised;
-    }
-
-    &:active {
-      transform: scale(0.98);
-    }
-  }
-}
-</style>

@@ -58,41 +58,42 @@ const onSubmit = () => {
 </script>
 
 <template>
-  <div class="login-page">
-    <div class="login-hero">
+  <div class="flex min-h-screen font-sans bg-white">
+    <div class="hidden relative w-1/2 bg-[#111] overflow-hidden lg:flex lg:flex-col lg:justify-end lg:p-12">
       <img
         src="/images/DSC_2714.jpg"
-        class="login-hero__bg"
+        class="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
         alt="Susi Air Aircraft"
       >
-      <div class="login-hero__overlay" />
+      <div class="absolute inset-0 bg-linear-to-t from-susi-navy/80 to-transparent z-0" />
 
-      <div class="login-hero__content">
+      <div class="relative z-10">
         <img
           src="https://susiair.com/images/susiair-logo.png"
           alt="Susi Air Logo"
-          class="login-hero__logo"
+          class="inline h-10 mb-6 brightness-0 invert"
         >
-        <h1 class="login-hero__title">
+        <h1 class="text-4xl font-bold text-white mt-[0.67em] mb-2 [text-shadow:0_2px_4px_rgba(0,0,0,0.3)]">
           Pilot Portal
         </h1>
-        <p class="login-hero__subtitle">
+        <p class="text-lg text-border-light my-[1em] [text-shadow:0_1px_2px_rgba(0,0,0,0.3)]">
           Your logbook and schedule companion
         </p>
       </div>
     </div>
 
-    <div class="login-form-container">
-      <div class="login-card">
-        <div class="login-header">
+    <div class="w-full flex items-center justify-center p-6 bg-white lg:w-1/2 lg:p-12">
+      <div class="w-full max-w-100">
+        <div class="text-center mb-8 lg:text-left">
           <img
             src="https://susiair.com/images/susiair-logo.png"
             alt="Susi Air"
-            class="login-header__mobile-logo"
+            class="h-8 mx-auto mb-6 lg:hidden"
           >
 
-          <div class="login-header__avatar">
+          <div class="w-16 h-16 bg-susi-bg rounded-full flex items-center justify-center border border-border-light mx-auto mb-4 lg:ml-0">
             <svg
+              class="w-8 h-8 text-susi-navy"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -105,65 +106,66 @@ const onSubmit = () => {
               />
             </svg>
           </div>
-          <h2 class="login-header__title">
+          <h2 class="text-2xl font-bold text-susi-navy mt-[0.83em] mb-[0.83em]">
             Welcome back, Pilot!
           </h2>
-          <p class="login-header__subtitle">
+          <p class="text-sm text-text-secondary mt-1 mb-[1em]">
             Sign in to continue to your dashboard
           </p>
         </div>
 
         <form
-          class="login-form"
+          class="flex flex-col gap-5"
           novalidate
           @submit.prevent="onSubmit"
         >
-          <div class="form-group">
+          <div class="flex flex-col">
             <label
               for="username"
-              class="form-label"
+              class="text-sm font-semibold text-susi-navy mb-1.5"
             >Username</label>
-            <div class="input-wrapper">
+            <div class="relative">
               <input
                 id="username"
                 v-model="state.username"
                 type="text"
                 placeholder="Enter your username"
-                class="form-input"
-                :class="{ 'has-error': errors.username }"
+                class="w-full py-3 px-4 bg-white border rounded-3xl text-sm text-susi-navy outline-none transition-all duration-200 ease-[ease] placeholder:text-[#9CA3AF] focus:border-susi-navy focus:shadow-[0_0_0_2px_rgba(14,33,56,0.1)]"
+                :class="errors.username ? 'border-susi-red focus:border-susi-red focus:shadow-[0_0_0_2px_rgba(230,55,87,0.1)]' : 'border-border-light'"
                 @input="errors.username = ''"
               >
             </div>
             <p
               v-if="errors.username"
-              class="error-message"
+              class="text-sm text-susi-red font-medium mt-1.5 mb-[1em]"
             >
               {{ errors.username }}
             </p>
           </div>
 
-          <div class="form-group">
+          <div class="flex flex-col">
             <label
               for="password"
-              class="form-label"
+              class="text-sm font-semibold text-susi-navy mb-1.5"
             >Password</label>
-            <div class="input-wrapper">
+            <div class="relative">
               <input
                 id="password"
                 v-model="state.password"
                 :type="showPassword ? 'text' : 'password'"
                 placeholder="Enter your password"
-                class="form-input"
-                :class="{ 'has-error': errors.password }"
+                class="w-full py-3 px-4 bg-white border rounded-3xl text-sm text-susi-navy outline-none transition-all duration-200 ease-[ease] placeholder:text-[#9CA3AF] focus:border-susi-navy focus:shadow-[0_0_0_2px_rgba(14,33,56,0.1)]"
+                :class="errors.password ? 'border-susi-red focus:border-susi-red focus:shadow-[0_0_0_2px_rgba(230,55,87,0.1)]' : 'border-border-light'"
                 @input="errors.password = ''"
               >
               <button
                 type="button"
-                class="password-toggle"
+                class="absolute right-4 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-[#9CA3AF] flex items-center p-0 hover:text-susi-navy"
                 @click="showPassword = !showPassword"
               >
                 <svg
                   v-if="!showPassword"
+                  class="w-5 h-5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -183,6 +185,7 @@ const onSubmit = () => {
                 </svg>
                 <svg
                   v-else
+                  class="w-5 h-5"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -198,29 +201,26 @@ const onSubmit = () => {
             </div>
             <p
               v-if="errors.password"
-              class="error-message"
+              class="text-sm text-susi-red font-medium mt-1.5 mb-[1em]"
             >
               {{ errors.password }}
             </p>
           </div>
 
-          <div class="form-actions-alt">
+          <div class="flex justify-end mt-1 mb-4">
             <a
               href="#"
-              class="help-link"
+              class="text-sm font-semibold text-susi-red no-underline hover:underline"
             >Need help? Contact CRD</a>
           </div>
 
-          <BaseButton
-            type="submit"
-            class="btn-submit"
-          >
+          <base-button type="submit">
             <span>Sign In</span>
             <svg
+              class="absolute right-6 w-5 h-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              class="icon-arrow"
             >
               <path
                 stroke-linecap="round"
@@ -229,256 +229,9 @@ const onSubmit = () => {
                 d="M14 5l7 7m0 0l-7 7m7-7H3"
               />
             </svg>
-          </BaseButton>
+          </base-button>
         </form>
       </div>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-@import '~/assets/scss/_variables.scss';
-
-.login-page {
-  display: flex;
-  min-height: 100vh;
-  font-family: $font-family-base;
-  background-color: $white;
-}
-
-.login-hero {
-  display: none;
-  position: relative;
-  width: 50%;
-  background-color: #111;
-  overflow: hidden;
-
-  @media (min-width: $bp-lg) {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 3rem;
-  }
-
-  &__bg {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.4;
-    z-index: 0;
-  }
-
-  &__overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to top, rgba($susi-navy, 0.8), transparent);
-    z-index: 0;
-  }
-
-  &__content {
-    position: relative;
-    z-index: 10;
-  }
-
-  &__logo {
-    height: 2.5rem;
-    margin-bottom: 1.5rem;
-    filter: brightness(0) invert(1);
-  }
-
-  &__title {
-    font-size: 2.25rem;
-    font-weight: 700;
-    color: $white;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  }
-
-  &__subtitle {
-    font-size: 1.125rem;
-    color: #E5E7EB;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-  }
-}
-
-.login-form-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  background-color: $white;
-
-  @media (min-width: $bp-lg) {
-    width: 50%;
-    padding: 3rem;
-  }
-}
-
-.login-card {
-  width: 100%;
-  max-width: 400px;
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 2rem;
-
-  @media (min-width: $bp-lg) {
-    text-align: left;
-  }
-
-  &__mobile-logo {
-    height: 2rem;
-    margin: 0 auto 1.5rem;
-
-    @media (min-width: $bp-lg) {
-      display: none;
-    }
-  }
-
-  &__avatar {
-    width: 4rem;
-    height: 4rem;
-    background-color: $susi-bg;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid $border-light;
-    margin: 0 auto 1rem;
-
-    @media (min-width: $bp-lg) {
-      margin-left: 0;
-    }
-
-    svg {
-      width: 2rem;
-      height: 2rem;
-      color: $susi-navy;
-    }
-  }
-
-  &__title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $text-primary;
-  }
-
-  &__subtitle {
-    font-size: 0.875rem;
-    color: $text-secondary;
-    margin-top: 0.25rem;
-  }
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-.form-label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: $text-primary;
-  margin-bottom: 0.375rem;
-}
-
-.input-wrapper {
-  position: relative;
-}
-
-.form-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background-color: $white;
-  border: 1px solid $border-light;
-  border-radius: 1.5rem;
-  font-size: 0.875rem;
-  color: $text-primary;
-  outline: none;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
-
-  &::placeholder {
-    color: #9CA3AF;
-  }
-
-  &:focus {
-    border-color: $susi-navy;
-    box-shadow: 0 0 0 2px rgba($susi-navy, 0.1);
-  }
-
-  &.has-error {
-    border-color: $text-error;
-    &:focus {
-      box-shadow: 0 0 0 2px rgba($text-error, 0.1);
-    }
-  }
-}
-
-.password-toggle {
-  position: absolute;
-  right: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #9CA3AF;
-  display: flex;
-  align-items: center;
-  padding: 0;
-
-  &:hover {
-    color: $susi-navy;
-  }
-
-  svg {
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-}
-
-.error-message {
-  font-size: 0.875rem;
-  color: $text-error;
-  font-weight: 500;
-  margin-top: 0.375rem;
-}
-
-.form-actions-alt {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 0.25rem;
-  margin-bottom: 1rem;
-}
-
-.help-link {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: $susi-red;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.btn-submit {
-  .icon-arrow {
-    position: absolute;
-    right: 1.5rem;
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-}
-</style>

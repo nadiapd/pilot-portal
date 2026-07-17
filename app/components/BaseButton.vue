@@ -15,61 +15,15 @@ withDefaults(defineProps<{
 <template>
   <button
     :type="type"
-    class="base-button"
-    :class="[`base-button--${variant}`, { 'base-button--block': block }]"
+    class="relative inline-flex items-center justify-center gap-2 rounded-3xl border-none py-3.5 px-7 font-sans text-sm font-bold cursor-pointer transition-[background-color,opacity] duration-200 ease-[ease] disabled:opacity-60 disabled:cursor-not-allowed active:enabled:scale-[0.98]"
+    :class="[
+      variant === 'primary'
+        ? 'bg-susi-red text-white hover:enabled:bg-susi-red-dark'
+        : 'bg-susi-bg text-susi-navy border border-border-light hover:enabled:bg-susi-bg-dark',
+      { 'w-full': block }
+    ]"
     :disabled="disabled"
   >
     <slot />
   </button>
 </template>
-
-<style lang="scss" scoped>
-@use "sass:color";
-.base-button {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border: none;
-  border-radius: $radius-pill;
-  padding: 0.875rem 1.75rem;
-  font-family: $font-family-base;
-  font-size: $fs-body-sm;
-  font-weight: $fw-bold;
-  cursor: pointer;
-  transition: background-color 0.2s ease, opacity 0.2s ease;
-
-  &--block {
-    width: 100%;
-  }
-
-  &--primary {
-    background-color: $susi-red;
-    color: $susi-card;
-
-    &:hover:not(:disabled) {
-      background-color: darken($susi-red, 10%);
-    }
-  }
-
-  &--secondary {
-    background-color: $susi-bg;
-    color: $susi-navy;
-    border: 1px solid $border-light;
-
-    &:hover:not(:disabled) {
-      background-color: darken(#F5F6F8, 3%);
-    }
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  &:active:not(:disabled) {
-    transform: scale(0.98);
-  }
-}
-</style>

@@ -12,41 +12,13 @@ withDefaults(defineProps<{
 
 <template>
   <span
-    class="duty-pill"
-    :class="`duty-pill--${variant}`"
+    class="inline-flex items-center max-w-full py-[0.18rem] px-2 rounded-3xl text-[0.6rem] font-bold tracking-[0.02em] whitespace-nowrap overflow-hidden text-ellipsis"
+    :class="{
+      'text-white': variant === 'solid',
+      'justify-center text-white w-8 h-8 p-0 rounded-full text-[0.5rem] shrink-0': variant === 'circle'
+    }"
     :style="variant === 'soft'
       ? { color, backgroundColor: `${color}1F` }
       : { backgroundColor: color }"
   >{{ variant === 'circle' ? code : (label || code) }}</span>
 </template>
-
-<style lang="scss" scoped>
-.duty-pill {
-  display: inline-flex;
-  align-items: center;
-  max-width: 100%;
-  padding: 0.18rem 0.5rem;
-  border-radius: $radius-pill;
-  font-size: 0.6rem;
-  font-weight: $fw-bold;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  &--solid {
-    color: $susi-card;
-  }
-
-  &--circle {
-    justify-content: center;
-    color: $susi-card;
-    width: 2rem;
-    height: 2rem;
-    padding: 0;
-    border-radius: 50%;
-    font-size: 0.5rem;
-    flex-shrink: 0;
-  }
-}
-</style>

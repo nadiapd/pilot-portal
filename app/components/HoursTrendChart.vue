@@ -111,18 +111,10 @@ const chartOptions = computed<ChartOptions<'line'>>(() => ({
 </script>
 
 <template>
-  <div class="hours-trend-chart">
+  <div class="relative h-55 w-full">
     <Line
       :data="chartData"
       :options="chartOptions"
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.hours-trend-chart {
-  position: relative;
-  height: 220px;
-  width: 100%;
-}
-</style>

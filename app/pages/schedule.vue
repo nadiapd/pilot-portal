@@ -123,14 +123,15 @@ const selectedDateLabel = computed(() => {
 </script>
 
 <template>
-  <div class="schedule-page">
-    <header class="schedule-header">
+  <div class="min-h-screen bg-susi-bg pb-26 overflow-x-hidden">
+    <header class="sticky top-0 z-30 flex items-center justify-between py-4 px-5 bg-white border-b border-border-light lg:py-5 lg:px-12">
       <NuxtLink
         to="/dashboard"
-        class="back-btn"
+        class="w-9 h-9 rounded-full text-susi-navy flex items-center justify-center no-underline transition-colors duration-200 ease-[ease] hover:bg-susi-bg"
         aria-label="Back"
       >
         <svg
+          class="w-[1.35rem] h-[1.35rem]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -143,13 +144,16 @@ const selectedDateLabel = computed(() => {
           />
         </svg>
       </NuxtLink>
-      <h1>Schedule</h1>
+      <h1 class="m-0 text-lg font-bold text-susi-navy">
+        Schedule
+      </h1>
       <button
         type="button"
-        class="btn-notification"
+        class="relative bg-susi-bg border border-border-light p-[0.6rem] rounded-full cursor-pointer transition-colors duration-200 ease-[ease] flex items-center justify-center hover:bg-border-light"
         aria-label="Notifications"
       >
         <svg
+          class="w-[1.35rem] h-[1.35rem] text-susi-navy"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -163,27 +167,27 @@ const selectedDateLabel = computed(() => {
         </svg>
         <span
           v-if="notificationCount > 0"
-          class="notification-badge"
+          class="absolute -top-[0.2rem] -right-[0.2rem] min-w-[1.1rem] h-[1.1rem] px-1 bg-susi-red text-white border-2 border-white rounded-full text-[0.6rem] font-bold leading-none flex items-center justify-center"
         >{{ notificationCount }}</span>
       </button>
     </header>
 
-    <main class="schedule-content">
-      <div class="month-nav">
+    <main class="max-w-160 mx-auto p-5 flex flex-col gap-5 lg:max-w-225 lg:py-8 lg:px-12">
+      <div class="flex items-center justify-between">
         <button
           type="button"
-          class="nav-btn"
+          class="border-none w-8 h-8 rounded-full bg-transparent text-susi-navy text-xl cursor-pointer shrink-0 flex items-center justify-center transition-colors duration-200 ease-[ease] hover:bg-susi-bg"
           aria-label="Previous month"
           @click="navigateMonth(-1)"
         >
           ‹
         </button>
-        <span class="month-label">
+        <span class="flex items-center gap-[0.35rem] text-lg font-bold text-susi-navy">
           {{ monthLabel }}
         </span>
         <button
           type="button"
-          class="nav-btn"
+          class="border-none w-8 h-8 rounded-full bg-transparent text-susi-navy text-xl cursor-pointer shrink-0 flex items-center justify-center transition-colors duration-200 ease-[ease] hover:bg-susi-bg"
           aria-label="Next month"
           @click="navigateMonth(1)"
         >
@@ -191,58 +195,63 @@ const selectedDateLabel = computed(() => {
         </button>
       </div>
 
-      <section class="calendar-card">
-        <div class="weekday-row">
+      <section class="bg-white border border-border-light rounded-2xl shadow-card py-4 px-2 overflow-hidden">
+        <div class="grid grid-cols-7">
           <div
             v-for="label in weekdayLabels"
             :key="label"
-            class="weekday"
+            class="text-center text-xs font-semibold text-text-secondary pb-3"
           >
             {{ label }}
           </div>
         </div>
 
-        <div class="calendar-grid">
+        <div class="grid grid-cols-7">
           <button
             v-for="day in calendarDays"
             :key="day.dateKey"
             type="button"
-            class="calendar-day"
-            :class="{
-              'calendar-day--muted': !day.isCurrentMonth,
-              'calendar-day--today': day.dateKey === scheduleStore.today && selectedDate !== day.dateKey,
-              'calendar-day--selected': selectedDate === day.dateKey
-            }"
+            class="border-none bg-transparent pt-1 pb-[0.6rem] flex flex-col items-center gap-[0.3rem] cursor-pointer active:scale-95"
             @click="openDayDetail(day.dateKey)"
           >
-            <span class="calendar-day__number-wrap">
-              <span class="calendar-day__number">{{ day.date.getDate() }}</span>
+            <span
+              class="w-[2.1rem] h-[2.1rem] rounded-full flex items-center justify-center transition-colors duration-200 ease-[ease]"
+              :class="{
+                'bg-[#FCEFC7]': day.dateKey === scheduleStore.today && selectedDate !== day.dateKey,
+                'bg-susi-navy': selectedDate === day.dateKey
+              }"
+            >
+              <span
+                class="text-sm font-semibold text-susi-navy"
+                :class="{
+                  'text-[#C7CDD6]': !day.isCurrentMonth && selectedDate !== day.dateKey,
+                  'text-white': selectedDate === day.dateKey
+                }"
+              >{{ day.date.getDate() }}</span>
             </span>
             <span
               v-if="getScheduleForDay(day.dateKey)"
-              class="calendar-day__dot"
+              class="w-1.5 h-1.5 rounded-full"
+              :class="{ 'bg-white/60': selectedDate === day.dateKey }"
               :style="{ backgroundColor: selectedDate === day.dateKey ? undefined : getDutyMeta(getScheduleForDay(day.dateKey)?.duty_type || '').color }"
             />
           </button>
         </div>
       </section>
 
-      <BaseCard
-        padding="md"
-        class="legend-card"
-      >
-        <div class="legend-list">
+      <BaseCard padding="md">
+        <div class="grid grid-cols-2 gap-x-4 gap-y-[0.85rem] lg:grid-cols-4">
           <div
             v-for="item in scheduleStore.legend"
             :key="item.code"
-            class="legend-item"
+            class="flex items-center gap-[0.6rem] text-sm font-medium text-susi-navy min-w-0"
           >
             <DutyPill
               variant="circle"
               :code="item.code"
               :color="item.color"
             />
-            <span class="legend-label">{{ item.label }}</span>
+            <span class="wrap:anywhere">{{ item.label }}</span>
           </div>
         </div>
       </BaseCard>
@@ -250,25 +259,28 @@ const selectedDateLabel = computed(() => {
 
     <div
       v-if="showDetailModal"
-      class="modal-backdrop"
+      class="fixed inset-0 bg-susi-navy/45 flex items-center justify-center p-4 z-60"
       @click="closeDetailModal"
     >
       <div
-        class="modal-card"
+        class="bg-white w-[min(100%,24rem)] max-w-[calc(100vw-2rem)] rounded-2xl p-5 shadow-[0_16px_40px_rgba(14,33,56,0.18)]"
         @click.stop
       >
-        <div class="modal-card__header">
-          <h3>{{ selectedDateLabel }}</h3>
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="m-0 text-lg font-bold text-susi-navy">
+            {{ selectedDateLabel }}
+          </h3>
           <button
             type="button"
-            class="modal-close"
+            class="border-none bg-transparent text-xl leading-none text-text-secondary cursor-pointer p-1 rounded-full transition-colors duration-200 ease-[ease] hover:bg-susi-bg"
             @click="closeDetailModal"
           >
             ×
           </button>
         </div>
-        <div class="modal-card__placeholder">
+        <div class="flex flex-col items-center justify-center gap-2 py-8 px-4 text-text-secondary text-center">
           <svg
+            class="w-7 h-7 text-[#CBD5E1]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -280,340 +292,11 @@ const selectedDateLabel = computed(() => {
               d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
             />
           </svg>
-          <p>Detail page coming soon</p>
+          <p class="m-0 text-sm">
+            Detail page coming soon
+          </p>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.schedule-page {
-  min-height: 100vh;
-  background-color: $susi-bg;
-  padding-bottom: 6.5rem;
-  overflow-x: hidden;
-}
-
-.schedule-header {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  background-color: $susi-card;
-  border-bottom: 1px solid $border-light;
-
-  @media (min-width: $bp-lg) {
-    padding: 1.25rem 3rem;
-  }
-
-  h1 {
-    margin: 0;
-    font-size: $fs-headline-sm;
-    font-weight: $fw-bold;
-    color: $susi-navy;
-  }
-}
-
-.back-btn {
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  color: $susi-navy;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: $susi-bg;
-  }
-
-  svg {
-    width: 1.35rem;
-    height: 1.35rem;
-  }
-}
-
-.btn-notification {
-  position: relative;
-  background: $susi-bg;
-  border: 1px solid $border-light;
-  padding: 0.6rem;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: $border-light;
-  }
-
-  svg {
-    width: 1.35rem;
-    height: 1.35rem;
-    color: $susi-navy;
-  }
-
-  .notification-badge {
-    position: absolute;
-    top: -0.2rem;
-    right: -0.2rem;
-    min-width: 1.1rem;
-    height: 1.1rem;
-    padding: 0 0.25rem;
-    background-color: $susi-red;
-    color: $white;
-    border: 2px solid $susi-card;
-    border-radius: 999px;
-    font-size: 0.6rem;
-    font-weight: 700;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-
-.schedule-content {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-
-  @media (min-width: $bp-lg) {
-    max-width: 900px;
-    padding: 2rem 3rem;
-  }
-}
-
-.month-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.month-label {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: $fs-headline-sm;
-  font-weight: $fw-bold;
-  color: $susi-navy;
-
-  .month-caret {
-    width: 1rem;
-    height: 1rem;
-    color: $text-secondary;
-  }
-}
-
-.nav-btn {
-  border: none;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: none;
-  color: $susi-navy;
-  font-size: 1.25rem;
-  cursor: pointer;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: $susi-bg;
-  }
-}
-
-.calendar-card {
-  background: $susi-card;
-  border: 1px solid $border-light;
-  border-radius: $radius-card-lg;
-  box-shadow: $shadow-card;
-  padding: 1rem 0.5rem;
-  overflow: hidden;
-}
-
-.weekday-row,
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-}
-
-.weekday {
-  text-align: center;
-  font-size: $fs-label-sm;
-  font-weight: 600;
-  color: $text-secondary;
-  padding-bottom: 0.75rem;
-}
-
-.calendar-day {
-  border: none;
-  background: none;
-  padding: 0.25rem 0 0.6rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-  cursor: pointer;
-
-  &:active {
-    transform: scale(0.95);
-  }
-
-  &--muted {
-    .calendar-day__number {
-      color: #C7CDD6;
-    }
-  }
-
-  &--today {
-    .calendar-day__number-wrap {
-      background-color: #FCEFC7;
-    }
-  }
-
-  &--selected {
-    .calendar-day__number-wrap {
-      background-color: $susi-navy;
-    }
-
-    .calendar-day__number {
-      color: $susi-card;
-    }
-
-    .calendar-day__dot {
-      background-color: rgba($susi-card, 0.6);
-    }
-  }
-}
-
-.calendar-day__number-wrap {
-  width: 2.1rem;
-  height: 2.1rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.2s ease;
-}
-
-.calendar-day__number {
-  font-size: $fs-body-sm;
-  font-weight: 600;
-  color: $susi-navy;
-}
-
-.calendar-day__dot {
-  width: 0.375rem;
-  height: 0.375rem;
-  border-radius: 50%;
-}
-
-.legend-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.85rem 1rem;
-
-  @media (min-width: $bp-lg) {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: $fs-body-sm;
-  font-weight: 500;
-  color: $susi-navy;
-  min-width: 0;
-}
-
-.legend-label {
-  overflow-wrap: anywhere;
-}
-
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(14, 33, 56, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 60;
-}
-
-.modal-card {
-  background: $susi-card;
-  width: min(100%, 24rem);
-  max-width: calc(100vw - 2rem);
-  border-radius: $radius-card-lg;
-  padding: 1.25rem;
-  box-shadow: 0 16px 40px rgba(14, 33, 56, 0.18);
-}
-
-.modal-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-
-  h3 {
-    margin: 0;
-    font-size: $fs-headline-sm;
-    color: $susi-navy;
-  }
-}
-
-.modal-card__placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 2rem 1rem;
-  color: $text-secondary;
-  text-align: center;
-
-  svg {
-    width: 1.75rem;
-    height: 1.75rem;
-    color: #CBD5E1;
-  }
-
-  p {
-    margin: 0;
-    font-size: $fs-body-sm;
-  }
-}
-
-.modal-close {
-  border: none;
-  background: none;
-  font-size: 1.25rem;
-  line-height: 1;
-  color: $text-secondary;
-  cursor: pointer;
-  padding: 0.25rem;
-  border-radius: 50%;
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: $susi-bg;
-  }
-}
-</style>
