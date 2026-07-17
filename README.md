@@ -6,7 +6,7 @@ This project is a front-end prototype. It does not require a backend or real API
 
 ## 🛠 Tech Stack
 
-*   **Framework:** Nuxt.js 3 (Vue 3, Composition API, `<script setup>`)
+*   **Framework:** Nuxt.js 4 (Vue 3, Composition API, `<script setup>`)
 *   **State Management:** Pinia
 *   **Styling:** SCSS / CSS Modules (Mobile-first approach, Grid/Flexbox)
 *   **Charting:** `vue-chartjs` (Chart.js)
